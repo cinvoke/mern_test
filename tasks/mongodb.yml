@@ -1,0 +1,26 @@
+- name: MongoDb | Import public key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+  become: yes
+  become_method: sudo
+- name: MongoDb | Add repository
+  apt_repository:
+    repo: 'deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse'
+    state: present
+    update_cache: yes
+  become: yes
+  become_method: sudo
+- name: MongoDb | Install MongoDB
+  apt:
+    name: mongodb-org
+    state: present
+    update_cache: yes
+  become: yes
+  become_method: sudo
+- name: MongoDb | Ensure that MongoDB is running
+  service:
+    name: mongod
+    state: started
+  become: yes
+  become_method: sudo

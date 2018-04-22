@@ -1,0 +1,29 @@
+- name: Node.js | Get script
+  get_url:
+    url: "http://deb.nodesource.com/setup_8.x"
+    dest: "{{ temp_folder }}/nodejs.sh"
+- name: Node.js | Set execution right to script
+  file:
+    path: "{{ temp_folder }}/nodejs.sh"
+    mode: "0555"
+- name: Node.js | Execute installation script
+  shell: "{{ temp_folder }}/nodejs.sh"
+  become: yes
+  become_method: sudo
+- name: Node.js | Remove installation script
+  file:
+    path: "{{ temp_folder }}/nodejs.sh"
+    state: absent
+- name: Node.js | Install Node.js
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - build-essential
+    - nodejs
+  become: yes
+  become_method: sudo
+- name: Node.js | Install Ember.js
+  npm: name={{ item }} global=yes version=3.1
+  with_items:
+    - ember-cli
+  become: yes
+  become_method: sudo

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  remote_user: vagrant
+  vars:
+    temp_folder: /tmp
+  tasks:
+    - include: tasks/prerequisites.yml
+    - include: tasks/mongodb.yml
+    - include: tasks/nodejs.yml
